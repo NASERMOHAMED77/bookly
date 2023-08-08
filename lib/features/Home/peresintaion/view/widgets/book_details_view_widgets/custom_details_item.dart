@@ -1,14 +1,18 @@
-
 import 'package:bookly/features/Home/peresintaion/view/widgets/home_view_widgets/rating.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/utils/styles.dart';
 
 class CustomBookDetailsItem extends StatelessWidget {
-  const CustomBookDetailsItem({
-    super.key,
-  });
-
+  CustomBookDetailsItem(
+      {super.key,
+      required this.outher,
+      required this.title,
+      required this.url});
+  final String title;
+  final String url;
+  final String outher;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -18,29 +22,34 @@ class CustomBookDetailsItem extends StatelessWidget {
           height: MediaQuery.of(context).size.height * .3,
           child: AspectRatio(
             aspectRatio: 2 / 3,
-            child: Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage('assets/images/test_image.png'))),
+            child: CachedNetworkImage(
+              fit: BoxFit.fill,
+              imageUrl: url,
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+              ),
             ),
           ),
         ),
         SizedBox(
           height: 40,
         ),
-        const SizedBox(
-          child: Text(
-            'The Book Junjle',
-            style: FontStyles.textStyle30,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
+        Center(
+          child: SizedBox(
+            child: Text(
+              title,
+              style: FontStyles.textStyle30,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
+              textAlign: TextAlign.center,
+            ),
           ),
         ),
         SizedBox(
           height: 7,
         ),
-        const Text(
-          'Rudyard kiliping',
+        Text(
+          outher,
           style: FontStyles.textStyle14,
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
@@ -48,7 +57,10 @@ class CustomBookDetailsItem extends StatelessWidget {
         SizedBox(
           height: 15,
         ),
-        Rating()
+        Rating(
+          rate: 4,
+          count: 404,
+        )
       ],
     );
   }

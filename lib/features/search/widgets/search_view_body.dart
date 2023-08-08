@@ -1,11 +1,7 @@
-import 'package:bookly/features/Home/peresintaion/view/book_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart';
 
-import '../../../constants.dart';
 import '../../../core/utils/styles.dart';
-import '../../Home/peresintaion/view/widgets/home_view_widgets/best_seller_widget.dart';
 
 class SearchViewBody extends StatelessWidget {
   const SearchViewBody({super.key});
@@ -29,21 +25,21 @@ class SearchViewBody extends StatelessWidget {
         SizedBox(
           height: 15,
         ),
-        Expanded(
-          child: ListView.builder(
-            itemCount: 10,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return GestureDetector(
-                  onTap: () {
-                    Get.to(() => BookDetailsView(),
-                        transition: Transition.fade,
-                        duration: kTranstionDuration);
-                  },
-                  child: BestSellerWidget());
-            },
-          ),
-        )
+        // Expanded(
+        //   child: ListView.builder(
+        //     itemCount: 10,
+        //     shrinkWrap: true,
+        //     itemBuilder: (context, index) {
+        //       return GestureDetector(
+        //           onTap: () {
+        //             Get.to(() => BookDetailsView(),
+        //                 transition: Transition.fade,
+        //                 duration: kTranstionDuration);
+        //           },
+        //           child: BestSellerWidget(,));
+        //     },
+        //   ),
+        // )
       ],
     );
   }

@@ -1,11 +1,13 @@
 import 'package:bookly/core/utils/styles.dart';
+import 'package:bookly/features/Home/peresintaion/manager/best_seller_cubit/best_seller_cubit.dart';
+import 'package:bookly/features/Home/peresintaion/manager/best_seller_cubit/best_seller_states.dart';
 import 'package:bookly/features/Home/peresintaion/view/book_details_view.dart';
 import 'package:bookly/features/Home/peresintaion/view/widgets/home_view_widgets/ListView_books.dart';
 import 'package:bookly/features/Home/peresintaion/view/widgets/home_view_widgets/best_seller_widget.dart';
 import 'package:bookly/features/Home/peresintaion/view/widgets/home_view_widgets/custom_appBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/routes/transitions_type.dart';
 
 import '../../../../../../constants.dart';
 
@@ -44,19 +46,35 @@ class HomeViewBody extends StatelessWidget {
 
 class ListViewBestSeller extends StatelessWidget {
   const ListViewBestSeller({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 10,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
-        return GestureDetector(onTap: (){
-           Get.to(() => BookDetailsView(),
-                        transition: Transition.fade,
+    return BlocBuilder<BestSellerCubit, BestSellerState>(
+      builder: (context, state) {
+        if (state is BestSellerFailure) {
+          return Text('no');
+        } else if (state is BestSellerSuccess) {
+          return ListView.builder(
+            itemCount: state.books.length,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                  onTap: () {
+                    Get.to(() => BookDetailsView(bookModel: state.books[index],),
                         duration: kTranstionDuration);
-        },child: BestSellerWidget());
+                  },
+                  child: BestSellerWidget(
+                    bookModel: state.books[index],
+                  ));
+            },
+          );
+        } else {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Colors.white,
+            ),
+          );
+        }
       },
     );
   }

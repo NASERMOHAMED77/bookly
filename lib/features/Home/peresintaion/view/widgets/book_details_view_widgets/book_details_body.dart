@@ -5,19 +5,26 @@ import 'package:bookly/features/Home/peresintaion/view/widgets/book_details_view
 import 'package:bookly/features/Home/peresintaion/view/widgets/book_details_view_widgets/listview_detilsbook.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class BookDetailsBody extends StatelessWidget {
-  const BookDetailsBody({super.key});
-
+  BookDetailsBody(
+      {super.key,
+      required this.outher,
+      required this.title,
+      required this.url});
+  String title;
+  String url;
+  String outher;
   @override
   Widget build(BuildContext context) {
-    return const CustomScrollView(
+    return CustomScrollView(
       slivers: [
         SliverFillRemaining(
           child: SafeArea(
               child: Column(
             children: [
               CustomBookDetailsAppBar(),
-              CustomBookDetailsItem(),
+              CustomBookDetailsItem(title: title,url: url,outher: outher,),
               SizedBox(
                 height: 40,
               ),

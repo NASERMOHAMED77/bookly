@@ -1,13 +1,20 @@
-import 'package:bookly/core/utils/styles.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class Rating extends StatelessWidget {
-  const Rating({super.key});
+import 'package:bookly/core/utils/styles.dart';
 
+class Rating extends StatelessWidget {
+  const Rating({
+    Key? key,
+    required this.rate,
+    required this.count,
+  }) : super(key: key);
+  final int rate;
+  final int count;
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.only(right: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -21,14 +28,14 @@ class Rating extends StatelessWidget {
             width: 7,
           ),
           Text(
-            '4.8',
+            rate.toString(),
             style: FontStyles.textStyle18,
           ),
           SizedBox(
             width: 3,
           ),
           Text(
-            '(414)',
+            '(' + count.toString() + ')',
             style: FontStyles.textStyle14,
           )
         ],

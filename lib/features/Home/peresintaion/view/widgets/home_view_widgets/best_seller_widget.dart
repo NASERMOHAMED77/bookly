@@ -1,14 +1,19 @@
-import 'package:bookly/constants.dart';
-import 'package:bookly/features/Home/peresintaion/view/widgets/home_view_widgets/rating.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'package:bookly/constants.dart';
+import 'package:bookly/features/Home/data/models/book_model/book_model.dart';
+import 'package:bookly/features/Home/peresintaion/view/widgets/home_view_widgets/rating.dart';
 
 import '../../../../../../core/utils/styles.dart';
 
 class BestSellerWidget extends StatelessWidget {
   const BestSellerWidget({
-    super.key,
-  });
-
+    Key? key,
+    required this.bookModel,
+  }) : super(key: key);
+  final BookModel bookModel;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -16,20 +21,21 @@ class BestSellerWidget extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 8),
           child: SizedBox(
-            height: 135,
-            child: AspectRatio(
-              aspectRatio: 2 / 3,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(16),
-                  image: const DecorationImage(
-                      image: AssetImage('assets/images/test_image.png'),
-                      fit: BoxFit.fill),
+              height: 135,
+              child: AspectRatio(
+                aspectRatio: 2 / 3,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: CachedNetworkImage(
+                    fit: BoxFit.fill,
+                    imageUrl:
+                        bookModel.volumeInfo.imageLinks.thumbnail.toString(),
+                    errorWidget: (context, url, error) => const Icon(
+                      Icons.error,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
+              )),
         ),
         const SizedBox(
           width: 30,
@@ -41,7 +47,7 @@ class BestSellerWidget extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * .5,
                 child: Text(
-                  'The Book Junjle',
+                  bookModel.volumeInfo.title.toString(),
                   style: FontStyles.textStyle20
                       .copyWith(fontFamily: kGtSectraFine),
                   maxLines: 2,
@@ -53,8 +59,8 @@ class BestSellerWidget extends StatelessWidget {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * .5,
-                child: const Text(
-                  'Rudyard kiliping',
+                child: Text(
+                  bookModel.volumeInfo.authors![0].toString(),
                   style: FontStyles.textStyle14,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -73,7 +79,10 @@ class BestSellerWidget extends StatelessWidget {
                   Spacer(),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Rating(),
+                    child: Rating(
+                      count: 500,
+                      rate: 4,
+                    ),
                   )
                 ],
               )
